@@ -1033,6 +1033,12 @@ jobs:
               run: yarn _requires_python
               if: ${{ runner.os != 'Linux' }} # skip on manylinux2014
 
+            - name: Set up QEMU
+              if: ${{ runner.os == 'Linux' }}
+              uses: docker/setup-qemu-action@v2
+              with:
+                platforms: arm64
+
             ################
             # Linux
             # NOTE: Not necessary because docker images prebuilt.
@@ -1066,7 +1072,9 @@ jobs:
             ########
             # Linux
             - name: Python Wheel Steps (Linux)
-              run: yarn _wheel_python --ci
+              run: |
+                yarn _wheel_python --ci
+                yarn _wheel_python --ci --aarch64
               env:
                   PYTHON_VERSION: ${{ matrix.python-version }}
                   MANYLINUX: ${{ matrix.container }}

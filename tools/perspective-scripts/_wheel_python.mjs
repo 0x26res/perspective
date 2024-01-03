@@ -24,6 +24,7 @@ import url from "url";
 const IS_DOCKER = process.env.PSP_DOCKER || getarg("--docker");
 const IS_MACOS = getarg("--macos");
 const IS_ARM = getarg("--arm");
+const IS_AARCH64 = getarg("--aarch64");
 
 let PYTHON;
 
@@ -67,7 +68,11 @@ if (IS_DOCKER) {
     cmd.sh`rm -rf build/`;
 
     // now build the wheel in place
-    cmd.sh`${PYTHON} setup.py build_ext bdist_wheel`;
+    if (IS_AARCH64) {
+        cmd.sh`${PYTHON} setup.py build_ext bdist_wheel --plat-name=aarch64`;
+    } else {
+        cmd.sh`${PYTHON} setup.py build_ext bdist_wheel`;
+    }
 
     // Use auditwheel on Linux - repaired wheels are in
     // `python/perspective/wheelhouse`.
@@ -91,6 +96,11 @@ if (IS_DOCKER) {
 } else {
     // Windows
     cmd.sh`${PYTHON} setup.py build_ext bdist_wheel`;
+    if (IS_AARCH64) {
+        cmd.sh`${PYTHON} setup.py build_ext bdist_wheel --plat-name=aarch64`;
+    } else {
+        cmd.sh`${PYTHON} setup.py build_ext bdist_wheel`;
+    }
 }
 
 // TODO: MacOS wheel processed with delocate segfaults on
