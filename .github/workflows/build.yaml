@@ -232,6 +232,7 @@ jobs:
                 echo "Current architecture: ${{ runner.arch }}"
                 ls /home/runner/.cargo/
                 ls /home/runner/.cargo/bin
+                /home/runner/.cargo/bin/rustup show
 
               if: ${{ contains(matrix.arch, 'aarch64') }}
 
