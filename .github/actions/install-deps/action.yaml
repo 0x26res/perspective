@@ -54,11 +54,24 @@ runs:
               remove-haskell: "true"
               remove-codeql: "true"
 
+        - name: Call rustup before cmake
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
+
         # https://github.com/open-telemetry/opentelemetry-cpp/issues/2998
         - name: Setup cmake
           uses: jwlawson/actions-setup-cmake@v2
           with:
               cmake-version: "3.29.6"
+
+
+        - name: Call rustup after cmake
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
 
         - name: Install pnpm
           uses: pnpm/action-setup@v3
@@ -87,6 +100,12 @@ runs:
               restore-keys: |
                   ${{ runner.os }}-pip-
 
+        - name: Call rustup before cargo cache
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
+
         - name: Setup cargo cache
           uses: actions/cache@v4
           if: ${{ inputs.skip_cache == 'false' && inputs.rust == 'true' }}
@@ -99,6 +118,12 @@ runs:
                   ~/.cargo/git/db/
               restore-keys: |
                   ${{ runner.os }}-cargo-
+
+        - name: Call rustup after cargo cache
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
 
         # - name: ccache
         #   uses: hendrikmuhs/ccache-action@v1.2
@@ -116,6 +141,12 @@ runs:
           shell: bash
           if: ${{ runner.os == 'Linux' }}
 
+        - name: Call rustup before installing python
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
+
         - name: Set up Python ${{ matrix.python-version }}
           uses: actions/setup-python@v5
           if: ${{ inputs.python == 'true' && runner.os != 'Linux' }}
@@ -128,6 +159,11 @@ runs:
         #       python get-pip.py --ignore-installed
         #       pip debug --verbose
         #   shell: bash
+        - name: Call rustup before installing node
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
 
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v4
