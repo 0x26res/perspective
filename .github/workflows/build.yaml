@@ -187,6 +187,7 @@ jobs:
             matrix:
                 os:
                     - ubuntu-22.04
+                    - ubuntu-22.04-arm
                     - macos-13
                     - windows-2022
                 arch:
@@ -209,7 +210,10 @@ jobs:
                       is-release: false
                     - os: windows-2022
                       is-release: false
-
+                    - os:   ubuntu-22.04-arm
+                      arch: x86_64
+                    - os:   ubuntu-22.04
+                      arch: aarch64
         steps:
             - name: Free up disk space
               if: ${{ runner.os == 'Linux' }}
@@ -226,11 +230,6 @@ jobs:
             - name: Install aarch64 toolchain
               run: |
                 echo "Current architecture: ${{ runner.arch }}"
-                echo "CC_aarch64_unknown_linux_gnu=gcc" >> $GITHUB_ENV
-                echo "CC=gcc" >> $GITHUB_ENV
-                echo "CXX=g++" >> $GITHUB_ENV
-                echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=gcc" >> $GITHUB_ENV
-                echo "RUSTC_LINKER=gcc" >> $GITHUB_ENV
               if: ${{ contains(matrix.arch, 'aarch64') }}
 
             - uses: actions/download-artifact@v4
