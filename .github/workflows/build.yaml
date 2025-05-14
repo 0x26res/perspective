@@ -180,7 +180,7 @@ jobs:
     #                              `-'
     build_python:
         runs-on: ${{ matrix.os }}
-        #needs: [lint_and_docs]
+        needs: [lint_and_docs]
         container: ${{ matrix.container }}
         strategy:
             fail-fast: false
