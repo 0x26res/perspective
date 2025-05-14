@@ -692,7 +692,7 @@ jobs:
               with:
                   rust: "false"
                   cpp: "false"
-                  skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
+                  skip_cache: true
 
             - uses: actions/download-artifact@v4
               with:
@@ -824,7 +824,7 @@ jobs:
               with:
                   rust: "false"
                   cpp: "false"
-                  skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
+                  skip_cache: true
 
             - uses: actions/download-artifact@v4
               with:
