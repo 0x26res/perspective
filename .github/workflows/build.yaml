@@ -180,7 +180,7 @@ jobs:
     #                              `-'
     build_python:
         runs-on: ${{ matrix.os }}
-        needs: [lint_and_docs]
+        #needs: [lint_and_docs]
         container: ${{ matrix.container }}
         strategy:
             fail-fast: false
@@ -230,7 +230,6 @@ jobs:
             - name: Print rustup after
               run: |
                 /home/runner/.cargo/bin/rustup show
-
               if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
 
 
@@ -242,23 +241,24 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Remove rust tool chain
+              run: |
+               rm rust-toolchain.toml
+              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
+
             - name: Config
               id: config-step
               uses: ./.github/actions/config
-
-            - name: Install aarch64 toolchain
-              run: |
-                echo "Current architecture: ${{ runner.arch }}"
-                ls /home/runner/.cargo/
-                ls /home/runner/.cargo/bin
-                /home/runner/.cargo/bin/rustup show
-
-              if: ${{ contains(matrix.arch, 'aarch64') }}
 
             - uses: actions/download-artifact@v4
               with:
                   name: perspective-metadata
                   path: rust/
+
+            - name: Show rust up
+              run: |
+                /home/runner/.cargo/bin/rustup show
+              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
 
             - name: Initialize Build
               id: init-step
@@ -715,7 +715,7 @@ jobs:
               with:
                   rust: "false"
                   cpp: "false"
-                  skip_cache: true
+                  skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
 
             - uses: actions/download-artifact@v4
               with:
@@ -847,7 +847,7 @@ jobs:
               with:
                   rust: "false"
                   cpp: "false"
-                  skip_cache: true
+                  skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
 
             - uses: actions/download-artifact@v4
               with:

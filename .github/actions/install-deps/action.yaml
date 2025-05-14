@@ -136,6 +136,12 @@ runs:
               cache: "pnpm"
               cache-dependency-path: pnpm-lock.yaml
 
+        - name: Call rustup before installing rust
+          shell: bash
+          run: |
+            /home/runner/.cargo/bin/rustup show
+          if: ${{ contains(matrix.arch, 'aarch64') }}
+
         - name: Install rust
           uses: dtolnay/rust-toolchain@nightly
           if: ${{ inputs.rust == 'true' && inputs.arch != 'aarch64' }}
