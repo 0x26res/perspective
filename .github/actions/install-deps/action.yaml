@@ -157,7 +157,6 @@ runs:
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'Linux' }}
           with:
               toolchain: nightly-2025-02-01
-              targets: aarch64-unknown-linux-gnu
               components: rustfmt, clippy, rust-src
 
         # # TODO doesn't work.
