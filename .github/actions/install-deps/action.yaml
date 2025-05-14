@@ -143,6 +143,7 @@ runs:
               toolchain: nightly-2025-02-01
               target: wasm32-unknown-unknown
               components: rustfmt, clippy, rust-src
+              cache-key: ${{ runner.os }}
 
         - name: Install rust (aarch64 OSX)
           uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -151,14 +152,16 @@ runs:
               toolchain: nightly-2025-02-01
               target: aarch64-apple-darwin
               components: rustfmt, clippy, rust-src
+              cache-key: ${{ runner.os }}
 
         - name: Install rust (aarch64 Linux)
           uses: actions-rust-lang/setup-rust-toolchain@v1
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'Linux' }}
           with:
               toolchain: nightly-2025-02-01
-              # target: aarch64-unknown-linux-gnu
+              target: aarch64-unknown-linux-gnu
               components: rustfmt, clippy, rust-src
+              cache-key: ${{ runner.os }}
 
         # # TODO doesn't work.
         # - name: Install LLVM 17
