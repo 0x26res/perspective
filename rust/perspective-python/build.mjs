@@ -75,6 +75,8 @@ if (is_pyodide) {
     target = "--target=x86_64-unknown-linux-gnu --compatibility manylinux_2_28";
 } else if (process.env.PSP_ARCH === "aarch64" && process.platform === "linux") {
     target = "--target=aarch64-unknown-linux-gnu";
+} else {
+    print('ERROR UNKNOWN AARCH ${process.env.PSP_ARCH} / ${process.platform}');
 }
 
 if (build_wheel) {
