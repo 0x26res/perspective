@@ -110,14 +110,14 @@ runs:
           uses: actions/cache@v4
           if: ${{ inputs.skip_cache == 'false' && inputs.rust == 'true' }}
           with:
-              key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+              key: ${{ matrix.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
               path: |
                   ~/.cargo/bin/
                   ~/.cargo/registry/index/
                   ~/.cargo/registry/cache/
                   ~/.cargo/git/db/
               restore-keys: |
-                  ${{ runner.os }}-cargo-
+                  ${{ matrix.os }}-cargo-
 
         - name: Call rustup after cargo cache
           shell: bash
