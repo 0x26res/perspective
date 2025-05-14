@@ -215,6 +215,25 @@ jobs:
                     - os:   ubuntu-22.04
                       arch: aarch64
         steps:
+            - name: Print rustup before
+              run: |
+                /home/runner/.cargo/bin/rustup show
+              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
+
+            - name: Install rust (aarch64 Linux)
+              uses: dtolnay/rust-toolchain@nightly
+              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
+              with:
+                toolchain: nightly-2025-02-01
+                targets: aarch64-unknown-linux-gnu
+                components: rustfmt, clippy, rust-src
+            - name: Print rustup after
+              run: |
+                /home/runner/.cargo/bin/rustup show
+
+              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
+
+
             - name: Free up disk space
               if: ${{ runner.os == 'Linux' }}
               run: |
