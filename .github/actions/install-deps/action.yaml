@@ -142,6 +142,7 @@ runs:
           with:
               toolchain: nightly-2025-02-01
               target: wasm32-unknown-unknown
+              components: rustfmt, clippy, rust-src
 
         - name: Install rust (aarch64 OSX)
           uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -149,6 +150,7 @@ runs:
           with:
               toolchain: nightly-2025-02-01
               target: aarch64-apple-darwin
+              components: rustfmt, clippy, rust-src
 
         - name: Install rust (aarch64 Linux)
           uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -156,6 +158,7 @@ runs:
           with:
               toolchain: nightly-2025-02-01
               target: aarch64-unknown-linux-gnu
+              components: rustfmt, clippy, rust-src
 
         # # TODO doesn't work.
         # - name: Install LLVM 17
