@@ -230,6 +230,9 @@ jobs:
             - name: Install aarch64 toolchain
               run: |
                 echo "Current architecture: ${{ runner.arch }}"
+                ls /home/runner/.cargo/
+                ls /home/runner/.cargo/bin
+
               if: ${{ contains(matrix.arch, 'aarch64') }}
 
             - uses: actions/download-artifact@v4
