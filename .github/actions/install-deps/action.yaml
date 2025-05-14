@@ -137,7 +137,7 @@ runs:
               cache-dependency-path: pnpm-lock.yaml
 
         - name: Install rust
-          uses: dtolnay/rust-toolchain@nightly
+          uses: brndnmtthws/rust-action-rustup@v1
           if: ${{ inputs.rust == 'true' && inputs.arch != 'aarch64' }}
           with:
               toolchain: nightly-2025-02-01
@@ -145,7 +145,7 @@ runs:
               components: rustfmt, clippy, rust-src
 
         - name: Install rust (aarch64 OSX)
-          uses: dtolnay/rust-toolchain@nightly
+          uses: brndnmtthws/rust-action-rustup@v1
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'macOS' }}
           with:
               toolchain: nightly-2025-02-01
@@ -153,10 +153,11 @@ runs:
               components: rustfmt, clippy, rust-src
 
         - name: Install rust (aarch64 Linux)
-          uses: dtolnay/rust-toolchain@nightly
+          uses: brndnmtthws/rust-action-rustup@v1
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'Linux' }}
           with:
               toolchain: nightly-2025-02-01
+              targets: aarch64-unknown-linux-musl #
               components: rustfmt, clippy, rust-src
 
         # # TODO doesn't work.
