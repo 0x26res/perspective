@@ -137,28 +137,25 @@ runs:
               cache-dependency-path: pnpm-lock.yaml
 
         - name: Install rust
-          uses: brndnmtthws/rust-action-rustup@v1
+          uses: actions-rust-lang/setup-rust-toolchain@v1
           if: ${{ inputs.rust == 'true' && inputs.arch != 'aarch64' }}
           with:
               toolchain: nightly-2025-02-01
-              targets: wasm32-unknown-unknown
-              components: rustfmt, clippy, rust-src
+              target: wasm32-unknown-unknown
 
         - name: Install rust (aarch64 OSX)
-          uses: brndnmtthws/rust-action-rustup@v1
+          uses: actions-rust-lang/setup-rust-toolchain@v1
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'macOS' }}
           with:
               toolchain: nightly-2025-02-01
-              targets: aarch64-apple-darwin
-              components: rustfmt, clippy, rust-src
+              target: aarch64-apple-darwin
 
         - name: Install rust (aarch64 Linux)
-          uses: brndnmtthws/rust-action-rustup@v1
+          uses: actions-rust-lang/setup-rust-toolchain@v1
           if: ${{ inputs.rust == 'true' && inputs.arch == 'aarch64' && runner.os == 'Linux' }}
           with:
               toolchain: nightly-2025-02-01
-              targets: aarch64-unknown-linux-musl #
-              components: rustfmt, clippy, rust-src
+              target: aarch64-unknown-linux-musl #
 
         # # TODO doesn't work.
         # - name: Install LLVM 17
