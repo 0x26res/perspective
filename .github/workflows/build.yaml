@@ -251,7 +251,7 @@ jobs:
                   PSP_BUILD_WHEEL: 1
                   RUSTFLAGS: "--verbose"
                   CARGO_ENCODED_RUSTFLAGS: "--verbose"
-                  RUST_BACKTRACE: 1
+                  RUST_BACKTRACE: "full"
 
             - name: Python Build (Windows)
               run: |
