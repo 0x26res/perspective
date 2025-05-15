@@ -215,24 +215,6 @@ jobs:
                     - os:   ubuntu-22.04
                       arch: aarch64
         steps:
-            - name: Print rustup before
-              run: |
-                /home/runner/.cargo/bin/rustup show
-              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
-
-            - name: Install rust (aarch64 Linux)
-              uses: dtolnay/rust-toolchain@nightly
-              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
-              with:
-                toolchain: nightly-2025-02-01
-                targets: aarch64-unknown-linux-gnu
-                components: rustfmt, clippy, rust-src
-            - name: Print rustup after
-              run: |
-                /home/runner/.cargo/bin/rustup show
-              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
-
-
             - name: Free up disk space
               if: ${{ runner.os == 'Linux' }}
               run: |
@@ -240,11 +222,6 @@ jobs:
 
             - name: Checkout
               uses: actions/checkout@v4
-
-            - name: Remove rust tool chain
-              run: |
-               rm rust-toolchain.toml
-              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
 
             - name: Config
               id: config-step
@@ -254,11 +231,6 @@ jobs:
               with:
                   name: perspective-metadata
                   path: rust/
-
-            - name: Show rust up
-              run: |
-                /home/runner/.cargo/bin/rustup show
-              if: ${{ matrix.os == 'ubuntu-22.04-arm' }}
 
             - name: Initialize Build
               id: init-step
@@ -270,13 +242,14 @@ jobs:
                   skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
 
             - name: Python Build
-              run: pnpm run build
+              run: pnpm run build --loglevel=debug -- --verbose
               if: ${{ !contains(matrix.os, 'windows') }}
               env:
                   PACKAGE: "perspective-python"
                   PSP_ARCH: ${{ matrix.arch }}
                   PSP_ROOT_DIR: ${{ github.workspace }}
                   PSP_BUILD_WHEEL: 1
+                  RUSTFLAGS: "-Z verbose"
 
             - name: Python Build (Windows)
               run: |
