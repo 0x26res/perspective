@@ -252,6 +252,7 @@ jobs:
                   RUSTFLAGS: "--verbose"
                   CARGO_ENCODED_RUSTFLAGS: "--verbose"
                   RUST_BACKTRACE: "full"
+                  CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG: "true"
 
             - name: Python Build (Windows)
               run: |
