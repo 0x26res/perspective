@@ -249,7 +249,7 @@ jobs:
                   PSP_ARCH: ${{ matrix.arch }}
                   PSP_ROOT_DIR: ${{ github.workspace }}
                   PSP_BUILD_WHEEL: 1
-                  RUSTFLAGS: "-Z verbose"
+                  RUSTFLAGS: "--verbose"
 
             - name: Python Build (Windows)
               run: |
