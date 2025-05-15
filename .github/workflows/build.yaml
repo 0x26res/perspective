@@ -250,6 +250,8 @@ jobs:
                   PSP_ROOT_DIR: ${{ github.workspace }}
                   PSP_BUILD_WHEEL: 1
                   RUSTFLAGS: "--verbose"
+                  CARGO_ENCODED_RUSTFLAGS: "--verbose"
+                  RUST_BACKTRACE: 1
 
             - name: Python Build (Windows)
               run: |
