@@ -70,7 +70,7 @@ jobs:
             fail-fast: false
             matrix:
                 os:
-                    - ubuntu-22.04
+                    - ubuntu-22.04-arm
                 python-version:
                     - 3.9
                 node-version: [20.x]
@@ -187,6 +187,7 @@ jobs:
             matrix:
                 os:
                     - ubuntu-22.04
+                    - ubuntu-22.04-arm
                     - macos-13
                     - windows-2022
                 arch:
@@ -205,13 +206,14 @@ jobs:
                 exclude:
                     - os: windows-2022
                       arch: aarch64
-                    - os: ubuntu-22.04
-                      arch: aarch64
                     - os: macos-13
                       is-release: false
                     - os: windows-2022
                       is-release: false
-
+                    - os:   ubuntu-22.04-arm
+                      arch: x86_64
+                    - os:   ubuntu-22.04
+                      arch: aarch64
         steps:
             - name: Free up disk space
               if: ${{ runner.os == 'Linux' }}
@@ -240,13 +242,19 @@ jobs:
                   skip_cache: ${{ steps.config-step.outputs.SKIP_CACHE }}
 
             - name: Python Build
-              run: pnpm run build
+              run: pnpm run build --loglevel=debug -- --verbose
               if: ${{ !contains(matrix.os, 'windows') }}
               env:
                   PACKAGE: "perspective-python"
                   PSP_ARCH: ${{ matrix.arch }}
                   PSP_ROOT_DIR: ${{ github.workspace }}
                   PSP_BUILD_WHEEL: 1
+                  PSP_BUILD_VERBOSE: 1
+                  RUSTFLAGS: "--verbose"
+                  CARGO_ENCODED_RUSTFLAGS: "--verbose"
+                  RUST_BACKTRACE: "full"
+                  CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG: "true"
+                  CARGO_BUILD_JOBS: 1
 
             - name: Python Build (Windows)
               run: |

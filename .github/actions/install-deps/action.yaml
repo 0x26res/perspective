@@ -74,31 +74,31 @@ runs:
                   ~/boost_1_82_0/
                   ~/.emsdk/
                   ~/.llvm/
-              key: ${{ runner.os }}-emsdk-${{ hashFiles('package.json') }}
+              key: ${{ matrix.os }}-emsdk-${{ hashFiles('package.json') }}
               restore-keys: |
-                  ${{ runner.os }}-emsdk-
+                  ${{ matrix.os }}-emsdk-
 
         - name: Setup pip cache
           uses: actions/cache@v4
           if: ${{ inputs.skip_cache == 'false' && inputs.python == 'true' }}
           with:
               path: ~/.cache/pip
-              key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+              key: ${{ matrix.os }}-pip-${{ hashFiles('**/setup.py') }}
               restore-keys: |
-                  ${{ runner.os }}-pip-
+                  ${{ matrix.os }}-pip-
 
         - name: Setup cargo cache
           uses: actions/cache@v4
           if: ${{ inputs.skip_cache == 'false' && inputs.rust == 'true' }}
           with:
-              key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+              key: ${{ matrix.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
               path: |
                   ~/.cargo/bin/
                   ~/.cargo/registry/index/
                   ~/.cargo/registry/cache/
                   ~/.cargo/git/db/
               restore-keys: |
-                  ${{ runner.os }}-cargo-
+                  ${{ matrix.os }}-cargo-
 
         # - name: ccache
         #   uses: hendrikmuhs/ccache-action@v1.2
@@ -111,7 +111,7 @@ runs:
           shell: bash
           run: echo "MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)" >> $GITHUB_ENV
 
-        # Use python 3.9 from manylinu
+        # Use python 3.9 from manylinux
         - run: echo "/opt/python/cp39-cp39/bin" >> $GITHUB_PATH
           shell: bash
           if: ${{ runner.os == 'Linux' }}
